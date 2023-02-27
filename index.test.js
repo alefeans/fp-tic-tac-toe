@@ -1,8 +1,8 @@
 import { List } from "immutable";
 import {
-  INITIAL_CHARACTER,
+  INITIAL_MARK,
   getMark,
-  characterToRow,
+  markToRow,
   getPlayerInput,
   isInvalidPosition,
   buildInitialBoard,
@@ -22,11 +22,11 @@ describe("Board game", () => {
     });
   });
 
-  it("Should return a board game filled with the initial character '-'", () => {
+  it("Should return a board game filled with the initial mark '-'", () => {
     const board = buildInitialBoard();
     board.forEach((row) => {
       row.forEach((column) => {
-        expect(column).toBe(INITIAL_CHARACTER);
+        expect(column).toBe(INITIAL_MARK);
       });
     });
   });
@@ -99,7 +99,7 @@ describe("Game over", () => {
     const board = buildInitialBoard();
     expect(isGameOver(board)).toBe(false);
 
-    const sameMarkRow = characterToRow(getMark());
+    const sameMarkRow = markToRow(getMark());
     const firstRowVictory = board.set(0, sameMarkRow);
     expect(isGameOver(firstRowVictory)).toBe(true);
 
@@ -113,15 +113,15 @@ describe("Game over", () => {
   it("Should end game when a column is filled with same mark character", () => {
     const mark = getMark();
     const board = buildInitialBoard();
-    const firstColumnMark = List([mark, INITIAL_CHARACTER, INITIAL_CHARACTER]);
+    const firstColumnMark = List([mark, INITIAL_MARK, INITIAL_MARK]);
     const firstColumnVictory = board.set(0, firstColumnMark).set(1, firstColumnMark).set(2, firstColumnMark);
     expect(isGameOver(firstColumnVictory)).toBe(true);
 
-    const secondColumnMark = List([INITIAL_CHARACTER, mark, INITIAL_CHARACTER]);
+    const secondColumnMark = List([INITIAL_MARK, mark, INITIAL_MARK]);
     const secondColumnVictory = board.set(0, secondColumnMark).set(1, secondColumnMark).set(2, secondColumnMark);
     expect(isGameOver(secondColumnVictory)).toBe(true);
 
-    const thirdColumnMark = List([INITIAL_CHARACTER, INITIAL_CHARACTER, mark]);
+    const thirdColumnMark = List([INITIAL_MARK, INITIAL_MARK, mark]);
     const thirdColumnVictory = board.set(0, thirdColumnMark).set(1, thirdColumnMark).set(2, thirdColumnMark);
     expect(isGameOver(thirdColumnVictory)).toBe(true);
   });
@@ -129,9 +129,9 @@ describe("Game over", () => {
   it("Should end game when a diagonal is filled with same mark character", () => {
     const mark = getMark();
     const board = buildInitialBoard();
-    const firstColumnMark = List([mark, INITIAL_CHARACTER, INITIAL_CHARACTER]);
-    const secondColumnMark = List([INITIAL_CHARACTER, mark, INITIAL_CHARACTER]);
-    const thirdColumnMark = List([INITIAL_CHARACTER, INITIAL_CHARACTER, mark]);
+    const firstColumnMark = List([mark, INITIAL_MARK, INITIAL_MARK]);
+    const secondColumnMark = List([INITIAL_MARK, mark, INITIAL_MARK]);
+    const thirdColumnMark = List([INITIAL_MARK, INITIAL_MARK, mark]);
     const firstDiagonalVictory = board.set(0, firstColumnMark).set(1, secondColumnMark).set(2, thirdColumnMark);
     expect(isGameOver(firstDiagonalVictory)).toBe(true);
 
@@ -149,7 +149,7 @@ describe("Game over", () => {
     const drawBoard = board.set(0, firstRow).set(1, secondRow).set(2, thirdRow);
     expect(isGameOver(drawBoard)).toBe(true);
 
-    const unfilledLastColumn = List([markOne, markTwo, INITIAL_CHARACTER]);
+    const unfilledLastColumn = List([markOne, markTwo, INITIAL_MARK]);
     const noDrawBoard = board.set(0, firstRow).set(1, secondRow).set(2, unfilledLastColumn);
     expect(isGameOver(noDrawBoard)).toBe(false);
   });
