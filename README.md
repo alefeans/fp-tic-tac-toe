@@ -10,7 +10,7 @@ A simple implementation of the Tic Tac Toe game in Javascript. Built with TDD an
 
 ## Features
 - Only two "prod" dependencies ([prompt-sync](https://github.com/heapwolf/prompt-sync), [immutable](https://immutable-js.com/));
-- No Type Classes, Monads, etc;
+- No Type Classes, Monads, State, etc;
 - Just composition, high order functions, immutability and happiness;
 
 ## Playing the Game
