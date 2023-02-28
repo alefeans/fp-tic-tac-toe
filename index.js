@@ -110,5 +110,3 @@ const main = () => pipe(buildInitialBoard(), showBoard, startGame, endGameMessag
 if (process.argv.includes("main")) {
   main();
 
-
-18  + 448 + 110 + 150 + 500 + 146 + 466
