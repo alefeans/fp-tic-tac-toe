@@ -98,14 +98,19 @@ const getInputPosition = (board) => {
 };
 
 const startGame = (board) => {
+  let mark;
   while (!isGameOver(board)) {
-    board = showBoard(setPosition(board, getInputPosition(board), getMark()));
+    mark = getMark();
+    board = showBoard(setPosition(board, getInputPosition(board), mark));
   }
+  return [board, mark];
 };
 
-const endGameMessage = () => console.log("Game over!");
+export const endGameResult = ([board, mark]) => (isVictory(board) ? `Player ${mark} won!` : "Draw!");
 
-const main = () => pipe(buildInitialBoard(), showBoard, startGame, endGameMessage);
+const showEndGameResult = (result) => console.log(result);
+
+const main = () => pipe(buildInitialBoard(), showBoard, startGame, endGameResult, showEndGameResult);
 
 if (process.argv.includes("main")) {
   main();
