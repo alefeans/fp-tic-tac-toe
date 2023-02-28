@@ -67,7 +67,7 @@ const hasSamePlayerMark = (seq) => !hasInitialMark(seq) && hasSameMark(seq);
 
 const rowVictory = (board) => board.filter((row) => hasSamePlayerMark(row)).size >= 1;
 
-const transposeBoard = (board) => board.first().map((col, i) => board.map((row) => row.get(i)));
+const transposeBoard = (board) => board.first().map((_, i) => board.map((row) => row.get(i)));
 
 const columnVictory = (board) => pipe(board, transposeBoard, rowVictory);
 
