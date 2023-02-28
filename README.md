@@ -1,5 +1,10 @@
 # FP Tic Tac Toe
-![GitHub repo size](https://img.shields.io/github/repo-size/alefeans/fp-tic-tac-toe?style=for-the-badge)
+
+<p align="left">
+  <a href="https://skillicons.dev">
+    <img src="https://skills.thijs.gg/icons?i=js,jest&theme=dark" />
+  </a>
+</p>
 
 A simple implementation of the Tic Tac Toe game in Javascript. Built with TDD and Functional Programming 💙.
 
