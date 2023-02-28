@@ -9,6 +9,7 @@ import {
   inputToBoardPosition,
   setPosition,
   isGameOver,
+  endGameResult
 } from "./index";
 
 describe("Board game", () => {
@@ -149,8 +150,27 @@ describe("Game over", () => {
     const drawBoard = board.set(0, firstRow).set(1, secondRow).set(2, thirdRow);
     expect(isGameOver(drawBoard)).toBe(true);
 
-    const unfilledLastColumn = List([markOne, markTwo, INITIAL_MARK]);
-    const noDrawBoard = board.set(0, firstRow).set(1, secondRow).set(2, unfilledLastColumn);
+    const unfilledLastPosition = List([markOne, markTwo, INITIAL_MARK]);
+    const noDrawBoard = board.set(0, firstRow).set(1, secondRow).set(2, unfilledLastPosition);
     expect(isGameOver(noDrawBoard)).toBe(false);
+  });
+
+  it("Should return end game result", () => {
+    const markOne = getMark();
+    const board = buildInitialBoard();
+    const markOneRow = markToRow(markOne);
+    const markOneVictoryBoard = board.set(0, markOneRow);
+    expect(endGameResult([markOneVictoryBoard, markOne])).toBe(`Player ${markOne} won!`);
+    
+    const markTwo = getMark();
+    const markTwoRow = markToRow(markTwo);
+    const markTwoVictoryBoard = board.set(0, markTwoRow);
+    expect(endGameResult([markTwoVictoryBoard, markTwo])).toBe(`Player ${markTwo} won!`);
+
+    const firstRow = List([markTwo, markOne, markTwo]);
+    const secondRow = List([markTwo, markOne, markOne]);
+    const thirdRow = List([markOne, markTwo, markOne]);
+    const drawBoard = board.set(0, firstRow).set(1, secondRow).set(2, thirdRow);
+    expect(endGameResult([drawBoard, "irrelevant"])).toBe("Draw!");
   });
 });
