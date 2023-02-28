@@ -109,4 +109,4 @@ const main = () => pipe(buildInitialBoard(), showBoard, startGame, endGameMessag
 
 if (process.argv.includes("main")) {
   main();
-
+}
