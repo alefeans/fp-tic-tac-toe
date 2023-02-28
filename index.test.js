@@ -6,7 +6,6 @@ import {
   getPlayerInput,
   isInvalidPosition,
   buildInitialBoard,
-  isMarkedPosition,
   inputToBoardPosition,
   setPosition,
   isGameOver,
@@ -55,14 +54,33 @@ describe("Player input", () => {
     expect(inputToBoardPosition(upperboundInput)).toBe(undefined);
   });
 
-  it("Should check for invalid input", () => {
+  it("Should check for undefined position", () => {
+    const board = buildInitialBoard()
     const validInput = getPlayerInput(() => "0");
     const validPosition = inputToBoardPosition(validInput);
-    expect(isInvalidPosition(validPosition)).toBe(false);
+    expect(isInvalidPosition(board, validPosition)).toBe(false);
 
     const negativeInput = getPlayerInput(() => "-1");
     const invalidPosition = inputToBoardPosition(negativeInput);
-    expect(isInvalidPosition(invalidPosition)).toBe(true);
+    expect(isInvalidPosition(board, invalidPosition)).toBe(true);
+  });
+
+  it("Should check for already marked position", () => {
+    const mark = getMark();
+    const board = buildInitialBoard();
+    const playerOnePosition = inputToBoardPosition(getPlayerInput(() => "0"));
+    const markedBoard = setPosition(board, playerOnePosition, mark);
+    const playerTwoPosition = inputToBoardPosition(getPlayerInput(() => "0"));
+    expect(isInvalidPosition(markedBoard, playerTwoPosition)).toBe(true);
+
+    const playerTwoSecondPosition = inputToBoardPosition(getPlayerInput(() => "1"));
+    expect(isInvalidPosition(markedBoard, playerTwoSecondPosition)).toBe(false);
+  });
+
+  it("Should use a different mark every time (X/O)", () => {
+    const firstMark = getMark();
+    const secondMark = getMark();
+    expect(firstMark).not.toBe(secondMark);
   });
 
   it("Should set position in the board preserving immutability", () => {
@@ -73,24 +91,6 @@ describe("Player input", () => {
     const markedBoard = setPosition(board, position, mark);
     expect(markedBoard).not.toEqual(board);
     expect(markedBoard.get(0).get(0)).toBe(mark);
-  });
-
-  it("Should check for already marked position", () => {
-    const mark = getMark();
-    const board = buildInitialBoard();
-    const playerOnePosition = inputToBoardPosition(getPlayerInput(() => "0"));
-    const markedBoard = setPosition(board, playerOnePosition, mark);
-    const playerTwoPosition = inputToBoardPosition(getPlayerInput(() => "0"));
-    expect(isMarkedPosition(markedBoard, playerTwoPosition)).toBe(true);
-
-    const playerTwoSecondPosition = inputToBoardPosition(getPlayerInput(() => "1"));
-    expect(isMarkedPosition(markedBoard, playerTwoSecondPosition)).toBe(false);
-  });
-
-  it("Should use a different mark every time (X/O)", () => {
-    const firstMark = getMark();
-    const secondMark = getMark();
-    expect(firstMark).not.toBe(secondMark);
   });
 });
 

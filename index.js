@@ -55,9 +55,9 @@ const alternateMark = () => {
 export const getMark = alternateMark();
 
 // Game rules
-export const isInvalidPosition = (position) => position === undefined;
+const isMarkedPosition = (board, [row, column]) => board.get(row).get(column) !== INITIAL_MARK;
 
-export const isMarkedPosition = (board, [row, column]) => board.get(row).get(column) !== INITIAL_MARK;
+export const isInvalidPosition = (board, position) => position === undefined || isMarkedPosition(board, position)
 
 const hasInitialMark = (seq) => seq.includes(INITIAL_MARK);
 
@@ -90,7 +90,7 @@ const invalidPositionMessage = () => console.log("Please, choose a valid positio
 // Impure imperative layer
 const getInputPosition = (board) => {
   let position = playerInputToBoardPosition();
-  while (isInvalidPosition(position) || isMarkedPosition(board, position)) {
+  while (isInvalidPosition(board, position)) {
     invalidPositionMessage();
     position = playerInputToBoardPosition();
   }
