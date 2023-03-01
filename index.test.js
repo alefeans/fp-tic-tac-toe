@@ -34,30 +34,32 @@ describe("Board game", () => {
 
 describe("Player input", () => {
   it("Should transform player input to a number", () => {
-    const playerInput = getPlayerInput(() => "8");
-    expect(playerInput).toBe(8);
+    const playerInput = getPlayerInput(() => "9");
+    expect(playerInput).toBe(9);
   });
 
   it("Should ignore extra characters", () => {
-    const playerInput = getPlayerInput(() => " 8 test");
-    expect(playerInput).toBe(8);
+    const playerInput = getPlayerInput(() => " 9 test");
+    expect(playerInput).toBe(9);
   });
 
   it("Should map valid user input to a board position", () => {
-    const playerInput = getPlayerInput(() => "0");
+    const playerInput = getPlayerInput(() => "1");
     expect(inputToBoardPosition(playerInput)).toEqual([0, 0]);
   });
 
   it("Should map invalid user input to undefined", () => {
+    const zeroInput = getPlayerInput(() => "0");
     const negativeInput = getPlayerInput(() => "-1");
-    const upperboundInput = getPlayerInput(() => "9");
+    const upperboundInput = getPlayerInput(() => "10");
+    expect(inputToBoardPosition(zeroInput)).toBe(undefined);
     expect(inputToBoardPosition(negativeInput)).toBe(undefined);
     expect(inputToBoardPosition(upperboundInput)).toBe(undefined);
   });
 
   it("Should check for undefined position", () => {
     const board = buildInitialBoard()
-    const validInput = getPlayerInput(() => "0");
+    const validInput = getPlayerInput(() => "1");
     const validPosition = inputToBoardPosition(validInput);
     expect(isInvalidPosition(board, validPosition)).toBe(false);
 
@@ -69,12 +71,12 @@ describe("Player input", () => {
   it("Should check for already marked position", () => {
     const mark = getMark();
     const board = buildInitialBoard();
-    const playerOnePosition = inputToBoardPosition(getPlayerInput(() => "0"));
+    const playerOnePosition = inputToBoardPosition(getPlayerInput(() => "1"));
     const markedBoard = setPosition(board, playerOnePosition, mark);
-    const playerTwoPosition = inputToBoardPosition(getPlayerInput(() => "0"));
+    const playerTwoPosition = inputToBoardPosition(getPlayerInput(() => "1"));
     expect(isInvalidPosition(markedBoard, playerTwoPosition)).toBe(true);
 
-    const playerTwoSecondPosition = inputToBoardPosition(getPlayerInput(() => "1"));
+    const playerTwoSecondPosition = inputToBoardPosition(getPlayerInput(() => "2"));
     expect(isInvalidPosition(markedBoard, playerTwoSecondPosition)).toBe(false);
   });
 
@@ -87,7 +89,7 @@ describe("Player input", () => {
   it("Should set position in the board preserving immutability", () => {
     const mark = getMark();
     const board = buildInitialBoard();
-    const input = getPlayerInput(() => "0");
+    const input = getPlayerInput(() => "1");
     const position = inputToBoardPosition(input);
     const markedBoard = setPosition(board, position, mark);
     expect(markedBoard).not.toEqual(board);
