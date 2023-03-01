@@ -32,10 +32,9 @@ const showBoard = (board) => {
 // User input
 const terminalReader = prompt({ sigint: true });
 
-export const getPlayerInput = (inputReader) =>
-  pipe("Choose your position (0-8 left to right): ", inputReader, parseInt);
+export const getPlayerInput = (reader) => pipe("Choose your position (1-9 left to right): ", reader, parseInt);
 
-export const inputToBoardPosition = (position) => (position < 0 ? undefined : POSITION_LOOKUP.get(position));
+export const inputToBoardPosition = (input) => (input < 1 ? undefined : POSITION_LOOKUP.get(input - 1));
 
 const playerInputToBoardPosition = () => pipe(terminalReader, getPlayerInput, inputToBoardPosition);
 
