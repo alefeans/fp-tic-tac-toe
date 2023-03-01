@@ -66,21 +66,21 @@ const hasSameMark = (seq) => seq.toSet().size === 1;
 
 const hasSamePlayerMark = (seq) => !hasInitialMark(seq) && hasSameMark(seq);
 
-const rowVictory = (board) => board.filter((row) => hasSamePlayerMark(row)).size >= 1;
+const isRowVictory = (board) => board.filter((row) => hasSamePlayerMark(row)).size >= 1;
 
 const transposeBoard = (board) => board.first().map((_, i) => board.map((row) => row.get(i)));
 
-const columnVictory = (board) => pipe(board, transposeBoard, rowVictory);
+const isColumnVictory = (board) => pipe(board, transposeBoard, isRowVictory);
 
 const getDiagonal = (board) => board.map((row, index) => row.get(index));
 
-const diagonalVictory = (board) => {
+const isDiagonalVictory = (board) => {
   const firstDiagonal = getDiagonal(board);
   const secondDiagonal = getDiagonal(board.reverse());
   return hasSamePlayerMark(firstDiagonal) || hasSamePlayerMark(secondDiagonal);
 };
 
-const isVictory = (board) => rowVictory(board) || columnVictory(board) || diagonalVictory(board);
+const isVictory = (board) => isRowVictory(board) || isColumnVictory(board) || isDiagonalVictory(board);
 
 const isDraw = (board) => board.filter((row) => hasInitialMark(row)).size === 0;
 
