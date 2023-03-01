@@ -38,10 +38,12 @@ export const inputToBoardPosition = (input) => (input < 1 ? undefined : POSITION
 
 const playerInputToBoardPosition = () => pipe(terminalReader, getPlayerInput, inputToBoardPosition);
 
-export const setPosition = (board, [row, column], mark) => {
-  const newRow = board.get(row).set(column, mark);
-  return board.set(row, newRow);
-};
+export const setPosition = (board, [row, column], mark) =>
+  pipe(
+    board.get(row),
+    (oldRow) => oldRow.set(column, mark),
+    (newRow) => board.set(row, newRow)
+  );
 
 const alternateMark = () => {
   let mark = "X";
